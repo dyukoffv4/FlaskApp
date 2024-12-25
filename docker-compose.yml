@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  database:
+    image: postgres:14.15-alpine
+    container_name: dv_d1
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - ./database_init:/docker-entrypoint-initdb.d
+      - ./volumes/database:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  flask-front:
+    build:
+      context: ./flask-front
+      dockerfile: Dockerfile
+    container_name: dv_a1
+    depends_on:
+      - database
+    volumes:
+      - ./flask-front:/app
+    environment:
+      - HOST_IP=${HOST_IP}
+#      - POSTGRES_USER=${POSTGRES_USER}
+#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#      - POSTGRES_DB=${POSTGRES_DB}
+#      - APP_PORT=${FLASK_FRONT_PORT}
+#      - APP_DEBUG=${FLASK_FRONT_DEBUG}
+    ports:
+      - ${HOST_IP}:${FLASK_FRONT_PORT}:${FLASK_FRONT_PORT}
