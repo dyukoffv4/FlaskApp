@@ -1,9 +1,11 @@
+\c postgres;
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    mail VARCHAR(255),
-    pass VARCHAR(255),
     name VARCHAR(255),
-    score INTEGER
+    pass VARCHAR(255),
+    win_plays INTEGER,
+    all_plays INTEGER
 );
 
-INSERT INTO users (mail, pass, name, score) VALUES ('net998art@gmail.com', 'admin', 'admin', 0);
+INSERT INTO users (name, pass, win_plays, all_plays) VALUES ('admin', 'admin', 0, 0);
